@@ -25,7 +25,7 @@ func EncryptPaste(paste string, password string) (ciphertext, iv, key, signature
 	gcm, _ := cipher.NewGCM(aes)
 
 	ciphertext = gcm.Seal(nil, iv, []byte(paste), nil)
-	signature = GenerateSignature(encryptionKey, paste)
+	signature = generateSignature(encryptionKey, paste)
 
 	return
 }
@@ -44,7 +44,14 @@ func DecryptPaste(ciphertext, iv, key []byte, password string) string {
 	return string(plaintext)
 }
 
-func GenerateSignature(key []byte, plaintext string) []byte {
+func ProofOfKnowlege(key []byte, plaintext string, password string) []byte {
+	if len(password) > 0 {
+		key = deriveFromPassword(key, password)
+	}
+	return generateSignature(key, plaintext)
+}
+
+func generateSignature(key []byte, plaintext string) []byte {
 	sign := hmac.New(sha256.New, key)
 	sign.Write([]byte(plaintext))
 	return sign.Sum(nil)
