@@ -5,13 +5,14 @@ import (
 	"net/url"
 	"strings"
 
+	"github.com/RevZer0/zkpaste-cli/config"
 	"github.com/RevZer0/zkpaste-cli/handler"
 	"github.com/RevZer0/zkpaste-cli/service"
 	"github.com/RevZer0/zkpaste-cli/utils"
 )
 
 func main() {
-	test_delete_paste()
+	test_decrypt()
 }
 
 func test_delete_paste() {
@@ -63,5 +64,5 @@ func test_encrypt() {
 		utils.ArmorValue(iv),
 		utils.ArmorValue(signature),
 	)
-	fmt.Println("http://localhost:3000/paste/" + pasteId + "#" + utils.ArmorValue(key))
+	fmt.Println(config.ZKPasteConfig.URL.Public + "/paste/" + pasteId + "#" + utils.ArmorValue(key))
 }

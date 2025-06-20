@@ -4,6 +4,8 @@ import (
 	"bytes"
 	"encoding/json"
 	"net/http"
+
+	"github.com/RevZer0/zkpaste-cli/config"
 )
 
 type ViewPastePayload struct {
@@ -16,7 +18,7 @@ func ViewPaste(pasteId string, signature string) {
 	})
 	request, _ := http.NewRequest(
 		http.MethodPut,
-		"http://localhost:8000/paste/"+pasteId+"/view",
+		config.ZKPasteConfig.URL.CoreApi+"/paste/"+pasteId+"/view",
 		bytes.NewBuffer(payload),
 	)
 	request.Header.Add("Content-type", "application/json")

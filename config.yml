@@ -1,0 +1,3 @@
+url:
+  core_api: http://localhost:8000
+  public: http://localhost:3000

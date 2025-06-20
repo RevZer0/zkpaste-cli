@@ -4,6 +4,8 @@ import (
 	"bytes"
 	"encoding/json"
 	"net/http"
+
+	"github.com/RevZer0/zkpaste-cli/config"
 )
 
 type DeletePastePayload struct {
@@ -16,7 +18,7 @@ func DeletePaste(pasteId string, signature string) {
 	})
 	request, _ := http.NewRequest(
 		http.MethodPost,
-		"http://localhost:8000/paste/"+pasteId+"/delete",
+		config.ZKPasteConfig.URL.CoreApi+"/paste/"+pasteId+"/delete",
 		bytes.NewBuffer(payload),
 	)
 	request.Header.Add("Content-type", "application/json")

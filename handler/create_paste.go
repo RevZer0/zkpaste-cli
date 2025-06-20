@@ -5,6 +5,8 @@ import (
 	"encoding/json"
 	"io"
 	"net/http"
+
+	"github.com/RevZer0/zkpaste-cli/config"
 )
 
 type CreatePasteMetadata struct {
@@ -37,7 +39,7 @@ func CreatePasteHandler(ciphertext, iv, signature string) string {
 
 	request, _ := http.NewRequest(
 		http.MethodPost,
-		"http://localhost:8000/paste",
+		config.ZKPasteConfig.URL.CoreApi+"/paste",
 		bytes.NewBuffer(jsonPayload),
 	)
 	request.Header.Add("Content-type", "application/json")

@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"io"
 	"net/http"
+
+	"github.com/RevZer0/zkpaste-cli/config"
 )
 
 type PasteData struct {
@@ -16,7 +18,7 @@ type PasteData struct {
 func GetPasteData(pasteId string) (pasteData PasteData) {
 	request, _ := http.NewRequest(
 		http.MethodGet,
-		"http://localhost:8000/paste/"+pasteId,
+		config.ZKPasteConfig.URL.CoreApi+"/paste/"+pasteId,
 		nil,
 	)
 	request.Header.Add("Content-type", "application/json")
