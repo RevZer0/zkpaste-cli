@@ -5,14 +5,14 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/RevZer0/zkpaste-cli/config"
+	"github.com/RevZer0/zkpaste-cli/cmd"
 	"github.com/RevZer0/zkpaste-cli/handler"
 	"github.com/RevZer0/zkpaste-cli/service"
 	"github.com/RevZer0/zkpaste-cli/utils"
 )
 
 func main() {
-	test_decrypt()
+	cmd.Execute()
 }
 
 func test_delete_paste() {
@@ -51,18 +51,4 @@ func test_decrypt() {
 		"12345",
 	)
 	fmt.Println(plaintext)
-}
-
-func test_encrypt() {
-	message := "This is password protected paste"
-	password := "12345"
-
-	ciphertext, iv, key, signature := service.EncryptPaste(message, password)
-
-	pasteId := handler.CreatePasteHandler(
-		utils.ArmorValue(ciphertext),
-		utils.ArmorValue(iv),
-		utils.ArmorValue(signature),
-	)
-	fmt.Println(config.ZKPasteConfig.URL.Public + "/paste/" + pasteId + "#" + utils.ArmorValue(key))
 }

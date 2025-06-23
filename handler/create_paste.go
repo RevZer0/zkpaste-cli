@@ -10,8 +10,9 @@ import (
 )
 
 type CreatePasteMetadata struct {
-	Ttl               string `json:"ttl"`
-	PasswordProtected bool   `json:"password_protected"`
+	Ttl               int  `json:"ttl"`
+	PasswordProtected bool `json:"password_protected"`
+	ViewLimit         int  `json:"opens_count"`
 }
 
 type CreatePastePayload struct {
@@ -25,14 +26,19 @@ type CreatePayloadResponse struct {
 	PasteId string `json:"paste_id"`
 }
 
-func CreatePasteHandler(ciphertext, iv, signature string) string {
+func CreatePasteHandler(
+	ciphertext, iv, signature string,
+	ttl, viewLimit int,
+	passwordProtected bool,
+) string {
 	payload := CreatePastePayload{
 		Ciphertext: ciphertext,
 		Iv:         iv,
 		Signature:  signature,
 		Metadata: CreatePasteMetadata{
-			Ttl:               "86400",
-			PasswordProtected: true,
+			Ttl:               ttl,
+			PasswordProtected: passwordProtected,
+			ViewLimit:         viewLimit,
 		},
 	}
 	jsonPayload, _ := json.Marshal(payload)
