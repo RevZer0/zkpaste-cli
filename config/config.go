@@ -18,13 +18,14 @@ var ZKPasteConfig Config
 func init() {
 	f, err := os.Open("config.yml")
 	if err != nil {
-		panic(err)
+		ZKPasteConfig.URL.CoreApi = "https://core.zkpaste.com"
+		ZKPasteConfig.URL.Public = "https://zkpaste.com"
+	} else {
+		decoder := yaml.NewDecoder(f)
+		err = decoder.Decode(&ZKPasteConfig)
+		if err != nil {
+			panic(err)
+		}
 	}
 	defer f.Close()
-
-	decoder := yaml.NewDecoder(f)
-	err = decoder.Decode(&ZKPasteConfig)
-	if err != nil {
-		panic(err)
-	}
 }
