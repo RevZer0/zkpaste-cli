@@ -30,7 +30,7 @@ func EncryptPaste(paste string, password string) (ciphertext, iv, key, signature
 	return
 }
 
-func DecryptPaste(ciphertext, iv, key []byte, password string) string {
+func DecryptPaste(ciphertext, iv, key []byte, password string) (string, error) {
 	if len(password) > 0 {
 		key = deriveFromPassword(key, password)
 	}
@@ -39,9 +39,9 @@ func DecryptPaste(ciphertext, iv, key []byte, password string) string {
 
 	plaintext, err := gcm.Open(nil, iv, ciphertext, nil)
 	if err != nil {
-		panic(err)
+		return "", err
 	}
-	return string(plaintext)
+	return string(plaintext), nil
 }
 
 func ProofOfKnowlege(key []byte, plaintext string, password string) []byte {
