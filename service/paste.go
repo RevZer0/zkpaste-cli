@@ -34,8 +34,14 @@ func DecryptPaste(ciphertext, iv, key []byte, password string) (string, error) {
 	if len(password) > 0 {
 		key = deriveFromPassword(key, password)
 	}
-	aes, _ := aes.NewCipher(key)
-	gcm, _ := cipher.NewGCM(aes)
+	aes, err := aes.NewCipher(key)
+	if err != nil {
+		return "", err
+	}
+	gcm, err := cipher.NewGCM(aes)
+	if err != nil {
+		return "", err
+	}
 
 	plaintext, err := gcm.Open(nil, iv, ciphertext, nil)
 	if err != nil {
