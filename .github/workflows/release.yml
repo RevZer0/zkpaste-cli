@@ -23,12 +23,12 @@ jobs:
           GOOS: ${{ matrix.goos }}
           GOARCH: ${{ matrix.goarch }}
         run: |
-          oname="build/zkpaste-${{ matrix.goos }}-${{ matrix.goarch }}"
           if [ "${{ matrix.goos }}" = "windows" ]; then
-            oname="${{ oname }}.exe"
+            go build -ldflags="-s -w" -o "build/zkpaste-${{ matrix.goos }}-${{ matrix.goarch }}.exe"
+          else 
+            go build -ldflags="-s -w" -o "build/zkpaste-${{ matrix.goos }}-${{ matrix.goarch }}"
           fi
-          go build -ldflags="-s -w" -o "${{ oname }}"
-
+           
       - name: Upload binaries
         uses: actions/upload-artifacts@v3
         with:
