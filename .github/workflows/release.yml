@@ -1,0 +1,38 @@
+name: Build release
+
+on: 
+  push:
+     tags: 
+       - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        goos: [linux, window, darwin]
+        goarch: [amd64, arm64]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v4
+        with:
+          go-version: '1.21'
+      - name: Build
+        env:
+          GOOS: ${{ matrix.goos }}
+          GOARCH: ${{ matrix.goarch }}
+        run: |
+          oname='build/zkpaste-${{ matrix.goos }}-${{ matrix.goarch }}'
+          if [ "${{ matrix.goos }}" = "windows" ]; then
+            oname="${{ oname }}.exe"
+          fi
+          go build -ldflags="-s -w" -o "${{ oname }}"
+
+      - name: Upload binaries
+        uses: actions/upload-artifacts@v3
+        with:
+          path: build/*
+          name: binaries
+          
+    
