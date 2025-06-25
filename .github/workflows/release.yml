@@ -23,7 +23,7 @@ jobs:
           GOOS: ${{ matrix.goos }}
           GOARCH: ${{ matrix.goarch }}
         run: |
-          oname='build/zkpaste-${{ matrix.goos }}-${{ matrix.goarch }}'
+          oname="build/zkpaste-${{ matrix.goos }}-${{ matrix.goarch }}"
           if [ "${{ matrix.goos }}" = "windows" ]; then
             oname="${{ oname }}.exe"
           fi
