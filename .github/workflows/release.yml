@@ -53,7 +53,13 @@ jobs:
       - name: Create release
         uses: softprops/action-gh-release@v1
         with:
-          files: ${{github.workspace}}/builds/*.zip
+          files: |
+            ${{github.workspace}}/builds/darwin_amd64.zip
+            ${{github.workspace}}/builds/darwin_arm64.zip
+            ${{github.workspace}}/builds/linux_amd64.zip
+            ${{github.workspace}}/builds/linux_arm64.zip
+            ${{github.workspace}}/builds/windows_amd64.zip
+
           generate_release_notes: true
           draft: true
       
