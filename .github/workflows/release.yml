@@ -39,7 +39,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           path: build/*
-          name: "${{ matrix.goos }}_${{ matrix.goarch }}.zip"
+          name: "${{ matrix.goos }}-${{ matrix.goarch }}"
   
   release:
     needs: [build]
@@ -48,22 +48,10 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           path: builds
-      - name: Downloaded builds
-        run: ls -la builds
-      - name: Am I idiot?!
-        run: |
-          pwd
-          file /home/runner/work/zkpaste-cli/zkpaste-cli/builds/darwin_arm64.zip
       - name: Create release
         uses: softprops/action-gh-release@v1
         with:
-          files: |
-            ${{github.workspace}}/builds/darwin_amd64.zip
-            ${{github.workspace}}/builds/darwin_arm64.zip
-            ${{github.workspace}}/builds/linux_amd64.zip
-            ${{github.workspace}}/builds/linux_arm64.zip
-            ${{github.workspace}}/builds/windows_amd64.zip
-
+          files: ${{github.workspace}}/builds/*/*
           generate_release_notes: true
           draft: true
       
