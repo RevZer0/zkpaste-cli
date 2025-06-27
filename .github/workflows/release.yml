@@ -39,7 +39,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           path: build/*
-          name: "${{ matrix.goos }}_${{ matrix.goarch }}"
+          name: "${{ matrix.goos }}_${{ matrix.goarch }}.zip"
   
   release:
     needs: [build]
@@ -53,7 +53,7 @@ jobs:
       - name: Create release
         uses: softprops/action-gh-release@v1
         with:
-          files: ${{github.workspace}}/builds/*_*
+          files: ${{github.workspace}}/builds/*.zip
           generate_release_notes: true
           draft: true
       
