@@ -1,5 +1,8 @@
 name: Build release
 
+permissions:
+  contents: write
+
 on: 
   push:
      tags: 
@@ -45,10 +48,12 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           path: builds
+      - name: Downloaded builds
+        run: ls -la builds
       - name: Create release
         uses: softprops/action-gh-release@v1
         with:
-          files: "builds/*"
+          files: builds/*
           generate_release_notes: true
           draft: true
       
