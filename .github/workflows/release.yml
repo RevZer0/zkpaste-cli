@@ -37,5 +37,19 @@ jobs:
         with:
           path: build/*
           name: "binaries-${{ matrix.goos }}-${{ matrix.goarch }}"
-          
+  
+  release:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: "binaries-*"
+      - name: Create release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: "binaries-*"
+          generate_release_notes: true
+      
+    
     
