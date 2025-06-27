@@ -50,6 +50,10 @@ jobs:
           path: builds
       - name: Downloaded builds
         run: ls -la builds
+      - name: Am I idiot?!
+        run: |
+          pwd
+          file /home/runner/work/zkpaste-cli/zkpaste-cli/builds/darwin_arm64.zip
       - name: Create release
         uses: softprops/action-gh-release@v1
         with:
